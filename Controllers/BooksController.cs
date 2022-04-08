@@ -55,43 +55,50 @@ namespace LibApp.Controllers
 
         public IActionResult New()
         {
+
             var viewModel = new BookFormViewModel
             {
                 Genres = _context.Genre.ToList()
             };
             return View("BookForm", viewModel);
+
         }
 
         [HttpPost]
         public IActionResult Save(Book book)
         {
+            if (!ModelState.IsValid) return New();
+
+
             if (book.Id == 0)
-            {
-                book.DateAdded = DateTime.Now;
-                _bookRepository.AddBook(book);
-            }
-            else
-            {
-                var dbBook = _bookRepository.GetBookById(book.Id);
+                {
+                    book.DateAdded = DateTime.Now;
+                    _bookRepository.AddBook(book);
+                }
+                else
+                {
+                    var dbBook = _bookRepository.GetBookById(book.Id);
                     dbBook.Name = book.Name;
                     dbBook.AuthorName = book.AuthorName;
                     dbBook.GenreId = book.GenreId;
                     dbBook.ReleaseDate = book.ReleaseDate;
                     dbBook.DateAdded = book.DateAdded;
                     dbBook.NumberInStock = book.NumberInStock;
-                _bookRepository.UpdateBook(dbBook);
-            }
+                    _bookRepository.UpdateBook(dbBook);
+                }
 
-            try
-            {
-                _bookRepository.Save();
-            }
-            catch (DbUpdateException e)
-            {
-                Console.WriteLine(e);
-            }
+                try
+                {
+                    _bookRepository.Save();
+                }
+                catch (DbUpdateException e)
+                {
+                    Console.WriteLine(e);
+                }
 
-            return RedirectToAction("Index", "Books");
+                return RedirectToAction("Index", "Books");
+        
+
         }
 
         //[HttpGet]

@@ -36,6 +36,7 @@
                 },
                 columns: [
                     {
+                         
                         data: "name",
                         render: function (data, type, book) {
                             return "<a href='books/details/" + book.id + "'>" + book.name + "</a>";
@@ -62,7 +63,7 @@
             $("#books").on("click", ".js-delete", function () {
                 var button = $(this);
                 bootbox.confirm({
-                    message: "Confirm customer deletion?",
+                    message: "Confirm book deletion?",
                     buttons: {
                         confirm: {
                             label: 'Yes',

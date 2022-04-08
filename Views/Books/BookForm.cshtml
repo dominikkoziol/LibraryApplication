@@ -9,8 +9,8 @@
 
 @using (Html.BeginForm("Save", "Books"))
 {
-    @Html.ValidationSummary()
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
     <div class="form-group">
     @Html.LabelFor(m => m.Book.Name)
     @Html.TextBoxFor(m => m.Book.Name, new { @class = "form-control" })
